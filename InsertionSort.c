@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Função de ordenação: Insertion Sort
 void insertionSort(int arr[], int n) {
     for (int i = 1; i < n; i++) {
         int key = arr[i];
@@ -39,7 +38,7 @@ double measureTime(void (*sortFunc)(int[], int), int arr[], int n) {
     return ((double)(end - start)) / CLOCKS_PER_SEC;
 }
 
-// Função principal
+
 int main() {
     // Tamanhos dos arrays para testar
     int sizes[] = {0, 20000, 40000, 60000, 80000, 100000, 120000, 140000, 160000, 180000, 200000, 
@@ -68,6 +67,5 @@ int main() {
     }
 
     fclose(file);
-    printf("Os dados foram salvos em 'insertion_sort_data.csv'.\n");
     return 0;
 }
