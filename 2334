@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main() {
+    unsigned long long P;  // Usamos 'unsigned long long' para suportar valores grandes
+
+    // Loop para processar cada caso de teste
+    while (1) {
+        // Ler a quantidade total de patinhos
+        scanf("%llu", &P);
+        
+        // Verifica se o valor é -1, indicando o fim dos casos de teste
+        if (P == (unsigned long long)-1) {
+            break;
+        }
+        
+        // A quantidade de patinhos que voltaram é P - (P - 1), que é sempre 1 se P > 0
+        if (P > 0) {
+            printf("1\n");
+        } else {
+            printf("0\n");
+        }
+    }
+    
+    return 0;
+}

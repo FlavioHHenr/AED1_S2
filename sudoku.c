@@ -1,65 +1,70 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+int verifica_linha_coluna(int matriz[9][9]) {
+    int i, j;
+
+    // Verificar linhas
+    for (i = 0; i < 9; i++) {
+        int linha[10] = {0};
+        for (j = 0; j < 9; j++) {
+            linha[matriz[i][j]]++;
+            if (linha[matriz[i][j]] > 1) return 0;
+        }
+    }
+
+    // Verificar colunas
+    for (j = 0; j < 9; j++) {
+        int coluna[10] = {0};
+        for (i = 0; i < 9; i++) {
+            coluna[matriz[i][j]]++;
+            if (coluna[matriz[i][j]] > 1) return 0;
+        }
+    }
+
+    return 1;
+}
+
+int verifica_submatrizes_3x3(int matriz[9][9]) {
+    for (int i = 0; i < 9; i += 3) {
+        for (int j = 0; j < 9; j += 3) {
+            int contagem[10] = {0};
+
+            for (int m = 0; m < 3; m++) {
+                for (int n = 0; n < 3; n++) {
+                    int num = matriz[i + m][j + n];
+                    contagem[num]++;
+                    if (contagem[num] > 1) return 0;
+                }
+            }
+        }
+    }
+    return 1;
+}
 
 int main() {
-    int grade[9][9], validador[10], n, x, y, z, h, invalido;
+    int n;
+    scanf("%d", &n); // Número de instâncias
 
-    scanf("%d", &n);
+    for (int k = 1; k <= n; k++) { // Lendo todas as instâncias
+        int sudoku[9][9];
 
-    for (h = 1; h <= n; h++) {
-        invalido = 0;
-
-        // Lê a grade do Sudoku
-        for (x = 0; x < 9; x++) {
-            for (y = 0; y < 9; y++) {
-                scanf("%d", &grade[x][y]);
+        // Lendo a matriz do Sudoku
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                scanf("%d", &sudoku[i][j]);
             }
         }
 
-        // Valida as linhas
-        for (x = 0; x < 9 && !invalido; x++) {
-            memset(validador, 0, sizeof(validador));
-            for (y = 0; y < 9 && !invalido; y++) {
-                if (validador[grade[x][y]]) {
-                    invalido = 1;
-                } else {
-                    validador[grade[x][y]] = 1;
-                }
-            }
+        // Verificações para cada instância
+        printf("Instancia %d\n", k);
+        if (verifica_linha_coluna(sudoku) && verifica_submatrizes_3x3(sudoku)) {
+            printf("SIM\n");
+        } else {
+            printf("NAO\n");
         }
-
-        // Valida as colunas
-        for (y = 0; y < 9 && !invalido; y++) {
-            memset(validador, 0, sizeof(validador));
-            for (x = 0; x < 9 && !invalido; x++) {
-                if (validador[grade[x][y]]) {
-                    invalido = 1;
-                } else {
-                    validador[grade[x][y]] = 1;
-                }
-            }
+        if (k < n) {
+            printf("\n"); // Adiciona uma linha em branco apenas entre as instâncias
         }
-
-        // Valida os blocos 3x3
-        for (x = 0; x < 9 && !invalido; x += 3) {
-            for (y = 0; y < 9 && !invalido; y += 3) {
-                memset(validador, 0, sizeof(validador));
-                for (z = 0; z < 9 && !invalido; z++) {
-                    int linhaBloco = x + z / 3;
-                    int colunaBloco = y + z % 3;
-                    if (validador[grade[linhaBloco][colunaBloco]]) {
-                        invalido = 1;
-                    } else {
-                        validador[grade[linhaBloco][colunaBloco]] = 1;
-                    }
-                }
-            }
-        }
-
-        // Exibe o resultado
-        printf("Instancia %d\n", h);
-        printf("%s\n\n", invalido ? "NAO" : "SIM");
     }
 
     return 0;
